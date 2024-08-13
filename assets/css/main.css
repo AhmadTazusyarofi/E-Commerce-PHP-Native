@@ -1,0 +1,470 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+.card {
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0px 4px 24px rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+}
+
+* {
+  list-style: none;
+  text-decoration: none;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: #f9f8f4;
+  overflow-x: hidden;
+}
+
+/* style for navbar */
+.navbar {
+  background-color: #40534c;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 7%;
+  box-shadow: 0 5px 25px rgb(1 1 1 / 30%);
+}
+.navbar .navbar-logo {
+  font-size: 1.6rem;
+  color: #fff;
+  font-weight: bold;
+  font-style: italic;
+  text-decoration: none;
+}
+
+.navbar .navbar-logo span {
+  color: #bec6a0;
+}
+
+.navbar .navbar-menu a {
+  color: #fff;
+  font-size: 1rem;
+  margin: 0 1rem;
+  text-decoration: none;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.navbar .navbar-menu a:hover {
+  color: #bec6a0;
+}
+
+.navbar .navbar-menu a::after {
+  content: "";
+  display: block;
+  padding-bottom: 0.5rem;
+  border-bottom: 0.1rem solid #bec6a0;
+  transform: scaleX(0);
+  transition: 0.2s linear;
+}
+
+.navbar .navbar-menu a:hover::after {
+  transform: scaleX(0.5);
+}
+
+.navbar .navbar-icon a {
+  color: #fff;
+  margin: 0 0.5rem;
+}
+
+.navbar .navbar-icon a:hover {
+  color: #bec6a0;
+}
+
+#btn-menu {
+  display: none;
+}
+
+.btn-login {
+  margin-top: 30px;
+  background-color: #40534c;
+  border: none;
+  color: #fff;
+  font-size: 10px;
+}
+
+.btn-login:hover {
+  background-color: #658177;
+  color: #fff;
+}
+
+/* hero section */
+.header {
+  margin-top: 50px;
+}
+
+.header .container img {
+  width: 100%;
+  height: 70vh;
+  object-fit: cover;
+  border-radius: 20px;
+}
+
+.header .btn-hero {
+  background-color: #40534c;
+  border: none;
+  border-radius: 40px;
+}
+
+.header .btn-hero:hover {
+  background-color: #bec6a0;
+}
+
+/* animasi hero section */
+@keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+.fas.fa-arrow-down {
+  animation: bounce 2s infinite;
+}
+
+/* style for login user */
+.navbar .user {
+  position: absolute;
+  top: 100%;
+  right: -100%;
+  height: 13vh;
+  width: 10rem;
+  padding: 0 1rem;
+  color: #eee;
+  background-color: #fff;
+  text-align: center;
+  border-radius: 5px 5px;
+  box-shadow: 0 1px 5px rgb(0, 0, 0, 0.5);
+  transition: 0.3s;
+}
+
+.user li,
+a {
+  font-size: 15px;
+  margin: 5px;
+}
+
+.navbar .user.active {
+  right: 20px;
+}
+
+/* style for about section */
+
+.about {
+  padding: 0 0 50px;
+  margin-top: 5rem;
+  color: black;
+}
+
+.judul {
+  font-size: 2rem;
+  font-style: italic;
+  font-weight: bold;
+  padding-bottom: 0.5rem;
+  margin-bottom: 2rem;
+  border-bottom: 0.1rem solid #bec6a0;
+  border-bottom-left-radius: 10px;
+}
+
+.judul span {
+  color: #bec6a0;
+}
+
+.about .about-img {
+  flex: 1 1 55rem;
+}
+
+.about .about-img img {
+  width: 100%;
+  border-radius: 20px;
+}
+
+.about .content h3 {
+  font-size: 2rem;
+}
+
+.about .content p {
+  margin-bottom: 0.8rem;
+  font-size: 1rem;
+  line-height: 1.6rem;
+}
+
+.btn-about {
+  background-color: #40534c;
+  border: none;
+  color: #fff;
+  border-radius: 40px;
+}
+
+.btn-about:hover {
+  background-color: #bec6a0;
+}
+
+/* style for produk */
+.produk {
+  padding: 0 0 50px;
+  margin-top: 50px;
+  color: black;
+}
+
+.produk .card {
+  box-shadow: 0 5px 25px rgb(1 1 1 / 20%);
+  margin-top: 1.5rem;
+}
+
+.bx-star {
+  color: rgb(207, 170, 59);
+}
+
+/* style for pages produk */
+.page-produk {
+  margin: 2rem 0;
+}
+
+.breadcrumb {
+  padding: 8px 15px;
+  margin-bottom: 20px;
+  border-radius: 20px;
+  background-color: #fff;
+  box-shadow: 0 1px 5px rgb(0, 0, 0, 0.5);
+}
+
+.header-card {
+  background-color: #40534c;
+  color: #fff;
+  font-weight: 600;
+}
+
+.nav-item a {
+  color: black;
+}
+
+.nav-item a:hover {
+  background-color: #bec6a0;
+  border-radius: 10px;
+}
+
+/* style for detail produk */
+
+.detail-produk {
+  position: relative;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.carousel-indicators {
+  position: unset;
+}
+
+.carousel-indicators button.active img {
+  border: 1px solid black;
+}
+
+.carousel-indicators img {
+  width: 70px;
+  display: block;
+}
+.slide {
+  box-shadow: 0 1px 5px rgb(0, 0, 0, 0.5);
+}
+
+.detail {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn-loginproduk {
+  display: flex;
+  align-items: center;
+  padding: 5px 5px;
+}
+
+/* style for keranjang */
+.page-keranjang {
+  margin: 2rem 0;
+}
+
+/* style for kontak */
+.kontak {
+  padding: 0 0 50px;
+  margin-top: 5rem;
+}
+
+.kontak .kontak-map iframe {
+  flex: 1 1 45%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.kontak-form .btn-kirim {
+  background-color: #40534c;
+  color: #fff;
+  border-radius: 30px;
+}
+
+.kontak-form .btn-kirim:hover {
+  background-color: #bec6a0;
+}
+
+.card-detail {
+  background-color: #40534c;
+}
+
+/* style for footer */
+footer {
+  margin-top: 150px;
+  background-color: #40534c;
+}
+
+footer h3 {
+  font-size: 25px;
+  font-weight: 500;
+}
+
+.row-content {
+  color: #bec6a0;
+}
+
+.row-content .logo-brand {
+  font-size: 25px;
+  font-weight: bold;
+  font-style: italic;
+  color: #fff;
+}
+
+.row-content span {
+  color: #bec6a0;
+}
+
+.footer-sosial {
+  font-size: 25px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 15px;
+}
+
+.footer-sosial i {
+  color: #bec6a0;
+  font-size: 20px;
+  margin: 0 10px 0 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 15px;
+  line-height: 30px;
+  text-align: center;
+  vertical-align: bottom;
+  background-color: #fff;
+}
+
+.footer-sosial i:hover {
+  color: #fff;
+  background-color: #bec6a0;
+}
+
+.navigasi ul li a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.navigasi ul li a:hover {
+  color: #bec6a0;
+}
+
+.pesanan .card {
+  box-shadow: none;
+  border: none;
+}
+
+/* responsive */
+/* dekstop */
+@media (max-width: 1366px) {
+  html {
+    font-size: 90%;
+  }
+}
+
+/* tablet */
+@media (max-width: 768px) {
+  html {
+    font-size: 75%;
+  }
+  #btn-menu {
+    display: inline-block;
+  }
+  .navbar .navbar-menu {
+    position: absolute;
+    top: 100%;
+    right: -100%;
+    background-color: #f9f8f4;
+    width: 30rem;
+    height: 100vh;
+    transition: 0.3s;
+  }
+  .navbar .navbar-menu.active {
+    right: 0;
+  }
+  .navbar .navbar-menu a {
+    color: #134b70;
+    display: block;
+    margin: 1.5rem;
+    padding: 0.5rem;
+    font-size: 1.5rem;
+  }
+  .navbar .navbar-menu a::after {
+    transform-origin: 0 0;
+  }
+  .navbar .navbar-menu a:hover::after {
+    transform: scaleX(0.2);
+  }
+  .content-copy-p {
+    margin-top: 30px;
+  }
+  .card-detail-produk {
+    margin-top: 10px;
+  }
+}
+
+/* phone */
+@media (max-width: 450px) {
+  html {
+    font-size: 60%;
+  }
+  .kontak-form {
+    margin-top: 40px;
+  }
+  .content-copy-p {
+    margin-top: 30px;
+  }
+  .box-card {
+    margin-top: 2rem;
+  }
+  .card-detail-produk {
+    margin-top: 10px;
+  }
+  .header-card {
+    background-color: #40534c;
+    color: #fff;
+    font-weight: 600;
+    text-align: center;
+    font-size: 15px;
+  }
+  .pesanan {
+    margin-top: 20px;
+  }
+}
