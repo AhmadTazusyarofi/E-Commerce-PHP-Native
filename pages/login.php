@@ -22,6 +22,8 @@ include "../config/koneksi.php";
     <!-- Custom styles for this template-->
     <link href="../assets/css/sb-admin-2.min.css" rel="stylesheet" />
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.min.css">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <link rel="stylesheet" href="../assets/css/main.css" />
@@ -40,9 +42,9 @@ include "../config/koneksi.php";
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="p-5">
-                                    <div class="text-center">
-                                        <h1 class="h3 text-dark mb-4"><strong>E-<span
-                                                    style="color: #bec6a0; font-style: italic;">Commerce</span></strong>
+                                    <div class="text-center ">
+                                        <h1 class="h3 text-dark mb-4 ">
+                                            <strong>Fashion-<span>Shop</span></strong>
                                         </h1>
                                     </div>
                                     <form method="post" class="user">
@@ -69,7 +71,7 @@ include "../config/koneksi.php";
                                         <a class="small" href="forgot-password.html">Forgot Password?</a>
                                     </div>
                                     <div class="text-center">
-                                        <a class="small" href="register.html">Create an Account!</a>
+                                        <a class="small" href="daftar.php">Create an Account!</a>
                                     </div>
                                 </div>
                             </div>
@@ -92,13 +94,35 @@ include "../config/koneksi.php";
 
         $akun = $ambil->num_rows;
 
-        if ($akun==1) {
+        if ($akun == 1) {
             $_SESSION['pelanggan'] = $ambil->fetch_assoc();
-            echo "<script>alert('Login Berhasil');</script>";
-            echo "<script>location='../index.php';</script>";
-        } else{
-            echo "<script>alert('Login Gagal');</script>";
-            echo "<script>location='login.php';</script>";
+            echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+            <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil Login',
+                text: 'Selamat Datang!',
+                confirmButtonText: 'OK'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '../index.php';
+                }
+            });
+            </script>";
+        } else {
+            echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+            <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Login Gagal',
+                text: 'Silahkan Coba Lagi!',
+                confirmButtonText: 'OK'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = 'login.php';
+                }
+            });
+            </script>";
         }
     }
 
@@ -114,6 +138,8 @@ include "../config/koneksi.php";
 
     <!-- Custom scripts for all pages-->
     <script src="../assets/js/sb-admin-2.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.all.min.js"></script>
 </body>
 
 </html>

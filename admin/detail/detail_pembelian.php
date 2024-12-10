@@ -45,6 +45,51 @@ $detail = $ambil->fetch_assoc();
                 </label>
 
                 <!--  -->
+                <label class="col-md-4 col-form-label">Ekspedisi :</label>
+                <label class="col-md-6 col-form-label">
+                    <?php echo $detail['ekspedisi']; ?>
+                </label>
+
+                <!--  -->
+                <label class="col-md-4 col-form-label">Ongkir :</label>
+                <label class="col-md-6 col-form-label">
+                    <?php echo $detail['ongkir']; ?>
+                </label>
+
+                <!--  -->
+                <label class="col-md-4 col-form-label">Total :</label>
+                <label class="col-md-6 col-form-label">Rp
+                    <?php echo number_format($detail['total_pembelian']); ?>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card shadow bg-white">
+            <div class="card-header bg-info text-white">
+                <strong>Data Pengiriman</strong>
+            </div>
+            <div class="card-body">
+                <!--  -->
+                <label class="col-md-4 col-form-label">Tanggal :</label>
+                <label class="col-md-6 col-form-label">
+                    <?php echo date("d F Y", strtotime($detail['tanggal_pembelian'])); ?>
+                </label>
+
+                <!--  -->
+                <label class="col-md-4 col-form-label">Ekspedisi :</label>
+                <label class="col-md-6 col-form-label">
+                    <?php echo $detail['ekspedisi']; ?>
+                </label>
+
+                <!--  -->
+                <label class="col-md-4 col-form-label">Ongkir :</label>
+                <label class="col-md-6 col-form-label">
+                    <?php echo $detail['ongkir']; ?>
+                </label>
+
+                <!--  -->
                 <label class="col-md-4 col-form-label">Total :</label>
                 <label class="col-md-6 col-form-label">Rp
                     <?php echo number_format($detail['total_pembelian']); ?>
@@ -60,7 +105,7 @@ $pp = array();
 $ambil = $koneksi->query("SELECT * FROM pembelian_produk JOIN produk
 ON pembelian_produk.id_produk=produk.id_produk WHERE pembelian_produk.id_pembelian='$id_pembelian'");
 
-while($pecah = $ambil->fetch_assoc()){
+while ($pecah = $ambil->fetch_assoc()) {
     $pp[] = $pecah;
 }
 ?>
@@ -80,14 +125,14 @@ while($pecah = $ambil->fetch_assoc()){
             </thead>
             <tbody>
                 <?php foreach ($pp as $key => $value): ?>
-                <?php $subtotal = $value['harga_produk']*$value['jumlah']; ?>
-                <tr>
-                    <td width="50"><?php echo $key+1; ?></td>
-                    <td><?php echo $value['nama_produk']; ?> </td>
-                    <td>Rp.<?php echo number_format($value['harga_produk']); ?> </td>
-                    <td><?php echo $value['jumlah']; ?></td>
-                    <td><?php echo number_format($subtotal); ?></td>
-                </tr>
+                    <?php $subtotal = $value['harga_produk'] * $value['jumlah']; ?>
+                    <tr>
+                        <td width="50"><?php echo $key + 1; ?></td>
+                        <td><?php echo $value['nama_produk']; ?> </td>
+                        <td>Rp.<?php echo number_format($value['harga_produk']); ?> </td>
+                        <td><?php echo $value['jumlah']; ?></td>
+                        <td><?php echo number_format($subtotal); ?></td>
+                    </tr>
                 <?php endforeach ?>
             </tbody>
         </table>

@@ -2,11 +2,6 @@
 session_start();
 include "../config/koneksi.php";
 
-if (empty($_SESSION['keranjang_belanja']) OR !isset($_SESSION['keranjang_belanja'])) {
-    echo "<script>alert('tidak ada data');</script>";
-    echo "<script>location='../pages/produk.php';</script>";
-}
-
 ?>
 
 <!DOCTYPE html>
@@ -28,6 +23,11 @@ if (empty($_SESSION['keranjang_belanja']) OR !isset($_SESSION['keranjang_belanja
     <!-- Custom styles for this page -->
     <link href="../assets/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" />
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.min.css">
+
+
     <!-- style -->
     <link rel="stylesheet" href="../assets/css/main.css" />
 
@@ -35,8 +35,47 @@ if (empty($_SESSION['keranjang_belanja']) OR !isset($_SESSION['keranjang_belanja
 </head>
 
 <body>
+    <header class="top-header py-1">
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="social-icons d-flex align-items-center">
+                <a href="#" class=" me-2"><i class="bx bxl-facebook"></i></a>
+                <a href="#" class=" me-2"><i class="bx bxs-phone"></i></a>
+                <a href="#" class=" me-2"><i class="bx bxl-whatsapp"></i></a>
+                <a href="#" class=" me-2"><i class="bx bxl-instagram-alt"></i></a>
+                <p class="mb-1 ml-2"> | </p>
+                <p class="mb-1 ml-2 text-dark">Follow Us</p>
+            </div>
+            <div class="contact-info d-flex align-items-center">
+                <?php if (isset($_SESSION['pelanggan'])): ?>
+                <a href="../pages/logout.php" class="btn btn-sm btn-contact-info font-weight-bold"><i
+                        class="bi bi-box-arrow-right mr-2 text-center"></i>Logout</a>
+                <a href="../pages/profil.php" id="btn-user"><i class='bx bx-user-circle bx-icon'></i></a>
+                <?php else: ?>
+                <a href="../pages/login.php" class="btn btn-sm btn-contact-info">Login</a>
+                <a href="../pages/daftar.php" class="btn btn-sm btn-contact-info">Daftar</a>
+                <?php endif; ?>
+            </div>
+        </div>
+    </header>
     <!-- nav header start -->
-    <?php include "../includes/navbar.php"; ?>
+    <nav class=" navbar sticky-top">
+        <a href="index.php" class="navbar-logo">Fashion-<span>Shop</span></a>
+
+        <div class="navbar-menu">
+            <a href="../index.php">Beranda</a>
+            <a href="#about">Tentang Kami</a>
+            <a href="../pages/produk.php">Produk</a>
+            <a href="#kontak">Kontak</a>
+
+        </div>
+
+        <!-- toggle -->
+        <div class="navbar-icon">
+            <a href="#"><i class="fas fa-search"></i></a>
+            <a href="keranjang.php"><i class="bi bi-cart-dash-fill"></i></a>
+            <a href="#" id="btn-menu"><i class="fas fa-bars"></i></a>
+        </div>
+    </nav>
     <!-- nav header end -->
 
     <!-- section produk start -->
@@ -54,69 +93,84 @@ if (empty($_SESSION['keranjang_belanja']) OR !isset($_SESSION['keranjang_belanja
                     <h4 class="text-white">Keranjang Belanja</h4>
                 </div>
                 <div class="card-body">
-                    <p>Anda mempunyai (4) items di dalam keranjang</p>
+                    <?php if (empty($_SESSION['keranjang_belanja'])): ?>
+                    <p>Anda Mempunyai (0) items di dalam keranjang belanja</p>
+                    <?php else: ?>
+
+                    <?php
+                        $items = 0;
+                        foreach ($_SESSION['keranjang_belanja'] as $id_produk => $jumlah) {
+                            $items++;
+                        }
+                        ?>
+                    <p>Anda Mempunyai (<?php echo $items; ?>) items di dalam keranjang belanja</p>
+                    <?php endif; ?>
                 </div>
             </div>
 
             <div class="card mt-4 mb-4">
-                <div class="card-body">
-                    <table class="table table-hover table-stripped" id="tables">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Foto</th>
-                                <th>Produk</th>
-                                <th>Jumlah</th>
-                                <th>Harga</th>
-                                <th>Subtotal</th>
-                                <th>Opsi</th>
-                            </tr>
-                        <tbody>
-                            <?php
-                            $no = 1;
-                            foreach ($_SESSION['keranjang_belanja'] as $id_produk => $jumlah):
-                                // ambil data
-                                $ambil = $koneksi->query("SELECT * FROM produk WHERE id_produk='$id_produk'");
-                                $pecah = $ambil->fetch_assoc();
+                <div class="table-responsive">
+                    <div class="card-body">
+                        <table class="table table-hover table-stripped" id="tables">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Foto</th>
+                                    <th>Produk</th>
+                                    <th>Jumlah</th>
+                                    <th>Harga</th>
+                                    <th>Subtotal</th>
+                                    <th>Opsi</th>
+                                </tr>
+                            <tbody>
+                                <?php
+                                $no = 1;
+                                foreach ($_SESSION['keranjang_belanja'] as $id_produk => $jumlah):
+                                    // ambil data
+                                    $ambil = $koneksi->query("SELECT * FROM produk WHERE id_produk='$id_produk'");
+                                    $pecah = $ambil->fetch_assoc();
 
-                                // subtotal
-                                $subtotal = $pecah['harga_produk'] * $jumlah;
-                            ?>
-                            <tr>
-                                <td width="25px"><?php echo $no++; ?></td>
-                                <td>
-                                    <img src="../assets/foto_produk/<?php echo $pecah['foto_produk']; ?>" width="90">
-                                </td>
-                                <td><?php echo $pecah['nama_produk']; ?></td>
-                                <td><?php echo $jumlah; ?></td>
-                                <td>Rp.<?php echo number_format($pecah['harga_produk']); ?></td>
-                                <td>Rp.<?php echo number_format($subtotal); ?></td>
-                                <td width="25px">
-                                    <a href="../includes/hapus_keranjang.php?idproduk=<?php echo $pecah['id_produk']; ?>"
-                                        class="btn btn-danger btn-sm">
-                                        <i class="fas fa-trash"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            <?php endforeach ?>
-                        </tbody>
+                                    // subtotal
+                                    $subtotal = $pecah['harga_produk'] * $jumlah;
+                                ?>
+                                <tr>
+                                    <td width="25px"><?php echo $no++; ?></td>
+                                    <td>
+                                        <img src="../assets/foto_produk/<?php echo $pecah['foto_produk']; ?>"
+                                            width="90">
+                                    </td>
+                                    <td><?php echo $pecah['nama_produk']; ?></td>
+                                    <td><?php echo $jumlah; ?></td>
+                                    <td>Rp.<?php echo number_format($pecah['harga_produk']); ?></td>
+                                    <td>Rp.<?php echo number_format($subtotal); ?></td>
+                                    <td width="25px">
+                                        <a href="../includes/hapus_keranjang.php?idproduk=<?php echo $pecah['id_produk']; ?>"
+                                            class="btn btn-danger btn-sm">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <?php endforeach ?>
+                            </tbody>
 
-                        </thead>
-                    </table>
-                </div>
+                            </thead>
+                        </table>
+                    </div>
 
-                <div class="card-footer">
-                    <div class="row">
-                        <div class="col-md-10">
-                            <a href="../pages/produk.php" class="btn btn-info">
-                                Kembali Belanja
-                            </a>
-                            <a href="checkout.php" class="btn btn-success ml-3">
-                                Checkout
-                            </a>
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-md-10">
+                                <a href="../pages/produk.php" class="btn btn-info">
+                                    Kembali Belanja
+                                </a>
+                                <a href="checkout.php" class="btn btn-success ml-3">
+                                    Checkout
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
+
             </div>
 
         </div>
@@ -127,6 +181,27 @@ if (empty($_SESSION['keranjang_belanja']) OR !isset($_SESSION['keranjang_belanja
     <!-- footer start -->
     <?php include "../includes/footer.php" ?>
     <!-- footer end -->
+
+    <?php
+    if (empty($_SESSION['keranjang_belanja']) or !isset($_SESSION['keranjang_belanja'])) {
+        // echo "<script>alert('tidak ada data');</script>";
+        // echo "<script>location='../pages/produk.php';</script>";
+
+        echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+    <script>
+    Swal.fire({
+        icon: 'question',
+        title: 'Tidak Ada Data Didalam Keranjang',
+        text: 'Silahkan Melakukan Pembelian!',
+        confirmButtonText: 'OK'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = '../pages/produk.php';
+        }
+    });
+    </script>";
+    }
+    ?>
 
     <!-- Bootstrap core JavaScript-->
     <script src="../assets/vendor/jquery/jquery.min.js"></script>
@@ -144,6 +219,8 @@ if (empty($_SESSION['keranjang_belanja']) OR !isset($_SESSION['keranjang_belanja
 
     <!-- Page level custom scripts -->
     <script src="../assets/js/demo/datatables-demo.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.all.min.js"></script>
 
     <script src="../assets/js/main.js"></script>
 </body>

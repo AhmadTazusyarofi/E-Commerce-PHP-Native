@@ -1,4 +1,4 @@
-<div class="shadow p-3 mb-3 bg-white rounded">
+<div class="shadow p-3 mb-3 bg-white rounded text-dark">
     <h5><b>Halaman produk</b></h5>
 </div>
 
@@ -12,7 +12,7 @@ while ($pecah = $ambil->fetch_assoc()) {
 
 ?>
 
-<a href="index.php?halaman=tambah_produk" class="btn btn-sm btn-success">Tambah Produk</a>
+<a href="index.php?halaman=tambah_produk" class="btn btn-sm btn-primary">Tambah Produk</a>
 
 <div class="card shadow bg-white mt-3">
     <div class="card-body">
@@ -30,27 +30,27 @@ while ($pecah = $ambil->fetch_assoc()) {
             </thead>
             <tbody>
                 <?php
-                    foreach ($produk as $key => $value):
+                foreach ($produk as $key => $value):
                 ?>
-                <tr>
-                    <td width="50"><?php echo $key+1; ?></td>
-                    <td><?php echo $value['nama_kategori']; ?></td>
-                    <td><?php echo $value['nama_produk']; ?></td>
-                    <td>Rp.<?php echo number_format($value['harga_produk']); ?></td>
-                    <td><?php echo number_format($value['berat_produk']); ?>Gr</td>
-                    <td class="text-center">
-                        <img width="150" src="../assets/foto_produk/<?php echo $value['foto_produk']; ?>" alt="">
-                    </td>
-                    <td class="text-center" width="150">
-                        <a href="index.php?halaman=hapus_produk&id=<?php echo $value['id_produk']; ?>"
-                            class="btn btn-sm btn-danger">Hapus</a>
-                        <a href="index.php?halaman=detail_produk&id=<?php echo $value['id_produk']; ?>"
-                            class="btn btn-sm btn-info">Detail</a>
-                    </td>
+                    <tr>
+                        <td width="50"><?php echo $key + 1; ?></td>
+                        <td><?php echo $value['nama_kategori']; ?></td>
+                        <td><?php echo $value['nama_produk']; ?></td>
+                        <td>Rp.<?php echo number_format($value['harga_produk']); ?></td>
+                        <td><?php echo number_format($value['berat_produk']); ?>Gr</td>
+                        <td class="text-center">
+                            <img width="150" src="../assets/foto_produk/<?php echo $value['foto_produk']; ?>" alt="">
+                        </td>
+                        <td class="text-center" width="150">
+                            <a href="index.php?halaman=hapus_produk&id=<?php echo $value['id_produk']; ?>"
+                                class="btn btn-sm btn-danger">Hapus</a>
+                            <a href="index.php?halaman=detail_produk&id=<?php echo $value['id_produk']; ?>"
+                                class="btn btn-sm btn-info">Detail</a>
+                        </td>
 
-                </tr>
+                    </tr>
                 <?php
-                    endforeach;
+                endforeach;
                 ?>
             </tbody>
         </table>

@@ -104,13 +104,13 @@ if (isset($_POST['login'])) {
 
     $akun = $ambil->num_rows;
 
-    if ($akun==1) {
+    if ($akun == 1) {
         $_SESSION['admin'] = $ambil->fetch_assoc();
 
 
         echo "<script>alert('Login Berhasil');</script>";
         echo "<script>location='index.php';</script>";
-    } else{
+    } else {
         echo "<script>alert('Login Gagal');</script>";
         echo "<script>location='login.php';</script>";
     }

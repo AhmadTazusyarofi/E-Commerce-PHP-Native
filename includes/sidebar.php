@@ -1,10 +1,10 @@
-<?php 
+<?php
 
 include '../config/koneksi.php';
 
 $kategori = array();
 $ambil = $koneksi->query("SELECT * FROM kategori");
-while($pecah = $ambil->fetch_assoc()){
+while ($pecah = $ambil->fetch_assoc()) {
     $kategori[] = $pecah;
 }
 
@@ -12,10 +12,10 @@ while($pecah = $ambil->fetch_assoc()){
 
 
 
-<div class="card">
+<div class="card kategori-card">
     <div class="card-header header-card">Kategori Produk</div>
     <div class="card-body">
-        <ul class="nav navpills flex-column">
+        <ul class="nav nav-pills flex-column">
             <?php foreach ($kategori as $key => $value): ?>
             <li class="nav-item">
                 <a href="../pages/produk.php?idkategori=<?php echo $value['id_kategori']; ?>" class="nav-link">

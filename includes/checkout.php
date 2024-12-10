@@ -2,12 +2,26 @@
 session_start();
 include "../config/koneksi.php";
 
-// user tidak bisa checkout sebelu, login
+// user tidak bisa checkout sebelum login
 if (!isset($_SESSION['pelanggan'])) {
-    echo "<script>alert('Silahkan Login Terlebih Dahulu');</script>";
+    // echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+    // <script>
+    // Swal.fire({
+    //     icon: 'success',
+    //     title: 'Berhasil Login',
+    //     text: 'Selamat Datang!',
+    //     confirmButtonText: 'OK'
+    // }).then((result) => {
+    //     if (result.isConfirmed) {
+    //         window.location.href = '../index.php';
+    //     }
+    // });
+    // </script>";
+    echo "<script>alert('Anda Harus Login');</script>";
     echo "<script>location='../pages/login.php';</script>";
     exit();
 }
+
 
 $id_pelanggan = $_SESSION['pelanggan']['id_pelanggan'];
 
@@ -32,6 +46,8 @@ $id_pelanggan = $_SESSION['pelanggan']['id_pelanggan'];
     <!-- Custom styles for this page -->
     <link href="../assets/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" />
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
     <!-- style -->
     <link rel="stylesheet" href="../assets/css/main.css" />
 
@@ -48,58 +64,62 @@ $id_pelanggan = $_SESSION['pelanggan']['id_pelanggan'];
         <div class="container">
             <nav>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="../index.php">Beranda</a></li>
+                    <li class="breadcrumb-item"><a href="keranjang.php">Keranjang</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Checkout</li>
                 </ol>
             </nav>
 
             <div class="card mt-4 mb-4">
                 <div class="card-body">
-                    <table class="table table-hover table-stripped" id="tables">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Foto</th>
-                                <th>Produk</th>
-                                <th>Jumlah</th>
-                                <th>Harga</th>
-                                <th>Subharga</th>
-                            </tr>
-                        <tbody>
-                            <?php
-                            $no = 1;
-                            $subtotal = 0;
-                            foreach ($_SESSION['keranjang_belanja'] as $id_produk => $jumlah):
-                                // ambil data
-                                $ambil = $koneksi->query("SELECT * FROM produk WHERE id_produk='$id_produk'");
-                                $pecah = $ambil->fetch_assoc();
+                    <div class="table-responsive">
+                        <table class="table table-hover table-stripped">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Foto</th>
+                                    <th>Produk</th>
+                                    <th>Jumlah</th>
+                                    <th>Harga</th>
+                                    <th>Subharga</th>
+                                </tr>
+                            <tbody>
+                                <?php
+                                $no = 1;
+                                $subtotal = 0;
+                                foreach ($_SESSION['keranjang_belanja'] as $id_produk => $jumlah):
+                                    // ambil data
+                                    $ambil = $koneksi->query("SELECT * FROM produk WHERE id_produk='$id_produk'");
+                                    $pecah = $ambil->fetch_assoc();
 
-                                // subtotal
-                                $subharga = $pecah['harga_produk'] * $jumlah;
-                                $subberat = $pecah['berat_produk'] * $jumlah;
-                                $totalbelanja = $subtotal+=$subharga;
-                            ?>
-                            <tr>
-                                <td width="25px"><?php echo $no++; ?></td>
-                                <td>
-                                    <img src="../assets/foto_produk/<?php echo $pecah['foto_produk']; ?>" width="90">
-                                </td>
-                                <td><?php echo $pecah['nama_produk']; ?></td>
-                                <td><?php echo $jumlah; ?></td>
-                                <td>Rp.<?php echo number_format($pecah['harga_produk']); ?></td>
-                                <td>Rp.<?php echo number_format($subharga); ?></td>
-                            </tr>
-                            <?php endforeach ?>
-                        </tbody>
+                                    // subtotal
+                                    $subharga = $pecah['harga_produk'] * $jumlah;
+                                    $subberat = $pecah['berat_produk'] * $jumlah;
+                                    $totalbelanja = $subtotal += $subharga;
+                                ?>
+                                    <tr>
+                                        <td width="25px"><?php echo $no++; ?></td>
+                                        <td>
+                                            <img src="../assets/foto_produk/<?php echo $pecah['foto_produk']; ?>"
+                                                width="90">
+                                        </td>
+                                        <td><?php echo $pecah['nama_produk']; ?></td>
+                                        <td><?php echo $jumlah; ?></td>
+                                        <td>Rp.<?php echo number_format($pecah['harga_produk']); ?></td>
+                                        <td>Rp.<?php echo number_format($subharga); ?></td>
+                                    </tr>
+                                <?php endforeach ?>
+                            </tbody>
 
-                        <tfoot>
-                            <tr>
-                                <th colspan="5">Total Belanja :</th>
-                                <th>Rp.<?php echo number_format($totalbelanja); ?></th>
-                            </tr>
-                        </tfoot>
-                        </thead>
-                    </table>
+                            <tfoot>
+                                <tr>
+                                    <th colspan="5">Total Belanja :</th>
+                                    <th>Rp.<?php echo number_format($totalbelanja); ?></th>
+                                </tr>
+                            </tfoot>
+                            </thead>
+                        </table>
+                    </div>
+
                 </div>
             </div>
 
@@ -194,7 +214,7 @@ $id_pelanggan = $_SESSION['pelanggan']['id_pelanggan'];
     <!-- section produk end -->
 
     <?php
-    if(isset($_POST['checkout'])){
+    if (isset($_POST['checkout'])) {
         $id_pelanggan = $_SESSION['pelanggan']['id_pelanggan'];
         $tanggal_pembelian = date('y-m-d');
         $alamat = $_POST['alamat'];
@@ -207,7 +227,7 @@ $id_pelanggan = $_SESSION['pelanggan']['id_pelanggan'];
         $paket = $_POST['paket'];
         $ongkir = $_POST['ongkir'];
         $estimasi = $_POST['estimasi'];
-        $total_pembelian = $totalbelanja+$ongkir;
+        $total_pembelian = $totalbelanja + $ongkir;
 
         // simpan kedalam tbl pembelian
         $koneksi->query("INSERT INTO pembelian
@@ -227,8 +247,8 @@ $id_pelanggan = $_SESSION['pelanggan']['id_pelanggan'];
             $nama = $pecah['nama_produk'];
             $harga = $pecah['harga_produk'];
             $berat = $pecah['berat_produk'];
-            $subberat = $pecah['berat_produk']*$jumlah;
-            $subharga = $pecah['harga_produk']*$jumlah;
+            $subberat = $pecah['berat_produk'] * $jumlah;
+            $subharga = $pecah['harga_produk'] * $jumlah;
 
             // simpan ke dalam tbl pembelian_produk
             $koneksi->query("INSERT INTO pembelian_produk
@@ -237,13 +257,26 @@ $id_pelanggan = $_SESSION['pelanggan']['id_pelanggan'];
 
             // update stok di tbl produk
             $koneksi->query("UPDATE produk SET stok_produk = stok_produk - $jumlah WHERE id_produk = '$id_produk'");
-
         }
 
         // kosongkan keranjang jika sudah checkout
         unset($_SESSION['keranjang_belanja']);
-        echo "<script>alert('Pembelian Sukses');</script>";
-        echo "<script>location='../pages/profil.php?page=pesanan';</script>";
+        // echo "<script>alert('Pembelian Sukses');</script>";
+        // echo "<script>location='../pages/profil.php?page=pesanan';</script>";
+
+        echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+        <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Berhasil Checkout',
+            text: 'Silahkan Melakukan Pembayaran',
+            confirmButtonText: 'OK'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '../pages/profil.php';
+            }
+        });
+        </script>";
     }
 
     ?>
@@ -268,6 +301,8 @@ $id_pelanggan = $_SESSION['pelanggan']['id_pelanggan'];
 
     <!-- Page level custom scripts -->
     <script src="../assets/js/demo/datatables-demo.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.all.min.js"></script>
 
     <script src="../assets/js/main.js"></script>
 </body>

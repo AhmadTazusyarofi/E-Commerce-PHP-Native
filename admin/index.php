@@ -2,7 +2,7 @@
 session_start();
 include '../config/koneksi.php';
 
-if(!isset($_SESSION['admin'])){
+if (!isset($_SESSION['admin'])) {
     echo "<script>alert('Anda Harus Login');</script>";
     echo "<script>location='login.php';</script>";
     exit();
@@ -46,9 +46,9 @@ if(!isset($_SESSION['admin'])){
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
                 <div class="sidebar-brand-icon ">
-                    <i class="fas fa-laugh-wink"></i>
+                    <i class="fas fa-store-alt"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">E-Commerce</div>
+                <div class="sidebar-brand-text mx-3">Fashion Shop</div>
             </a>
 
             <!-- Divider -->
@@ -57,7 +57,7 @@ if(!isset($_SESSION['admin'])){
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
                 <a class="nav-link" href="index.php">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-fw fa-tachometer-alt text-white"></i>
                     <span>Dashboard</span></a>
             </li>
 
@@ -66,31 +66,37 @@ if(!isset($_SESSION['admin'])){
 
             <li class="nav-item">
                 <a class="nav-link" href="index.php?halaman=kategori">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-list text-white"></i>
                     <span>Kategori</span></a>
             </li>
 
             <li class="nav-item">
                 <a class="nav-link" href="index.php?halaman=produk">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-cubes text-white"></i>
                     <span>Produk</span></a>
             </li>
 
             <li class="nav-item">
                 <a class="nav-link" href="index.php?halaman=pembelian">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-shopping-cart text-white"></i>
                     <span>Pembelian</span></a>
             </li>
 
             <li class="nav-item">
                 <a class="nav-link" href="index.php?halaman=pelanggan">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-users text-white"></i>
                     <span>Pelanggan</span></a>
             </li>
 
             <li class="nav-item">
+                <a class="nav-link" href="index.php?halaman=laporan_pembelian">
+                    <i class="fas fa-file text-white"></i>
+                    <span>Laporan</span></a>
+            </li>
+
+            <li class="nav-item">
                 <a class="nav-link" href="index.php?halaman=logout">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-sign-out-alt text-white"></i>
                     <span>Logout</span></a>
             </li>
 
@@ -133,43 +139,6 @@ if(!isset($_SESSION['admin'])){
                         </div>
                     </form>
 
-                    <!-- Topbar Navbar -->
-                    <ul class="navbar-nav ml-auto">
-
-                        <div class="topbar-divider d-none d-sm-block"></div>
-
-                        <!-- Nav Item - User Information -->
-                        <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
-                                <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
-                            </a>
-                            <!-- Dropdown - User Information -->
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Profile
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Settings
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Activity Log
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
-                                </a>
-                            </div>
-                        </li>
-
-                    </ul>
-
                 </nav>
                 <!-- End of Topbar -->
 
@@ -179,61 +148,52 @@ if(!isset($_SESSION['admin'])){
                     <!-- Page Heading -->
 
                     <?php
-                            if (isset($_GET['halaman'])) {
-                                // halaman kategori
-                                if ($_GET['halaman']=="kategori") {
-                                    include 'kategori.php';
-                                }
-                                elseif ($_GET['halaman']=="tambah_kategori") {
-                                    include 'tambah/tambah_kategori.php';
-                                }
-                                elseif ($_GET['halaman']=="edit_kategori") {
-                                    include 'edit/edit_kategori.php';
-                                }
-                                elseif ($_GET['halaman']=="hapus_kategori") {
-                                    include 'hapus/hapus_kategori.php';
-                                }
+                    if (isset($_GET['halaman'])) {
+                        // halaman kategori
+                        if ($_GET['halaman'] == "kategori") {
+                            include 'kategori.php';
+                        } elseif ($_GET['halaman'] == "tambah_kategori") {
+                            include 'tambah/tambah_kategori.php';
+                        } elseif ($_GET['halaman'] == "edit_kategori") {
+                            include 'edit/edit_kategori.php';
+                        } elseif ($_GET['halaman'] == "hapus_kategori") {
+                            include 'hapus/hapus_kategori.php';
+                        }
 
-                                // halaman produk
-                                elseif ($_GET['halaman']=="produk") {
-                                    include 'produk.php';
-                                }
-                                elseif ($_GET['halaman']=="tambah_produk") {
-                                    include 'tambah/tambah_produk.php';
-                                }
-                                elseif ($_GET['halaman']=="detail_produk") {
-                                    include 'detail/detail_produk.php';
-                                }
-                                elseif ($_GET['halaman']=="hapus_foto") {
-                                    include 'hapus/hapus_foto.php';
-                                }
-                                elseif ($_GET['halaman']=="edit_produk") {
-                                    include 'edit/edit_produk.php';
-                                }
-                                elseif ($_GET['halaman']=="hapus_produk") {
-                                    include 'hapus/hapus_produk.php';
-                                }
+                        // halaman produk
+                        elseif ($_GET['halaman'] == "produk") {
+                            include 'produk.php';
+                        } elseif ($_GET['halaman'] == "tambah_produk") {
+                            include 'tambah/tambah_produk.php';
+                        } elseif ($_GET['halaman'] == "detail_produk") {
+                            include 'detail/detail_produk.php';
+                        } elseif ($_GET['halaman'] == "hapus_foto") {
+                            include 'hapus/hapus_foto.php';
+                        } elseif ($_GET['halaman'] == "edit_produk") {
+                            include 'edit/edit_produk.php';
+                        } elseif ($_GET['halaman'] == "hapus_produk") {
+                            include 'hapus/hapus_produk.php';
+                        }
 
-                                // halaman pembelian
-                                elseif ($_GET['halaman']=="pembelian") {
-                                    include 'pembelian.php';
-                                }
-                                elseif ($_GET['halaman']=="detail_pembelian") {
-                                    include 'detail/detail_pembelian.php';
-                                }
+                        // halaman pembelian
+                        elseif ($_GET['halaman'] == "pembelian") {
+                            include 'pembelian.php';
+                        } elseif ($_GET['halaman'] == "detail_pembelian") {
+                            include 'detail/detail_pembelian.php';
+                        } elseif ($_GET['halaman'] == "pembayaran") {
+                            include 'pembayaran.php';
+                        } elseif ($_GET['halaman'] == "laporan_pembelian") {
+                            include 'laporan_pembelian.php';
+                        }
 
-                                elseif ($_GET['halaman']=="logout") {
-                                    include 'logout.php';
-                                }
-
-                                // halaman pelanggan
-                                elseif ($_GET['halaman']=="pelanggan") {
-                                    include 'pelanggan.php';
-                                }
-                            } else {
-                                include 'dashboard.php';
-                            }
-                        ?>
+                        // halaman pelanggan
+                        elseif ($_GET['halaman'] == "pelanggan") {
+                            include 'pelanggan.php';
+                        }
+                    } else {
+                        include 'dashboard.php';
+                    }
+                    ?>
 
                 </div>
                 <!-- /.container-fluid -->
@@ -245,7 +205,7 @@ if(!isset($_SESSION['admin'])){
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; <strong>E-Commerce</strong> 2020</span>
+                        <span>Copyright &copy; <strong>Fashion-Shop</strong> 2024</span>
                     </div>
                 </div>
             </footer>
@@ -262,25 +222,6 @@ if(!isset($_SESSION['admin'])){
         <i class="fas fa-angle-up"></i>
     </a>
 
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- Bootstrap core JavaScript-->
     <script src="../assets/vendor/jquery/jquery.min.js"></script>
@@ -300,11 +241,11 @@ if(!isset($_SESSION['admin'])){
     <script src="../assets/js/demo/datatables-demo.js"></script>
 
     <script>
-    $(document).ready(function() {
-        $(".btn-tambah").on("click", function() {
-            $(".input-foto").append("<input type='file' name='foto[]' class='form-control'>");
+        $(document).ready(function() {
+            $(".btn-tambah").on("click", function() {
+                $(".input-foto").append("<input type='file' name='foto[]' class='form-control'>");
+            })
         })
-    })
     </script>
 
 </body>

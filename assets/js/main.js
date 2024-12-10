@@ -4,48 +4,12 @@ document.querySelector("#btn-menu").onclick = () => {
   navbarMenu.classList.toggle("active");
 };
 
-// tombol btn-user diklik
-const btnUser = document.querySelector(".user");
-document.querySelector("#btn-user").onclick = (e) => {
-  btnUser.classList.toggle("active");
-  e.preventDefault();
-};
-
 // onclick sidebar hide
 const btnMenu = document.querySelector("#btn-menu");
 document.addEventListener("click", function (e) {
   if (!btnMenu.contains(e.target) && !navbarMenu.contains(e.target)) {
     navbarMenu.classList.remove("active");
   }
-});
-
-// animasi typing hero section
-document.addEventListener("DOMContentLoaded", (event) => {
-  const text = "Belanja Dari Rumah Aja ...";
-  let index = 0;
-  const typingElement = document.getElementById("typing-text");
-
-  function type() {
-    if (index < text.length) {
-      typingElement.innerHTML += text.charAt(index);
-      index++;
-      setTimeout(type, 100);
-    } else {
-      setTimeout(erase, 2000);
-    }
-  }
-
-  function erase() {
-    if (index > 0) {
-      typingElement.innerHTML = text.substring(0, index - 1);
-      index--;
-      setTimeout(erase, 50);
-    } else {
-      setTimeout(type, 2000);
-    }
-  }
-
-  type();
 });
 
 // api rajaongkir
@@ -126,3 +90,107 @@ $(document).ready(function () {
     $("input[name=estimasi]").val(etd);
   });
 });
+
+// // pagination
+// function getPageList(totalPage, page, maxLength) {
+//   function rage(start, end) {
+//     return Array.from(Array(end - start + 1), (_, i) => i + start);
+//   }
+
+//   var sideWith = maxLength < 9 ? 1 : 2;
+//   var leftWIdth = (maxLength - sideWith * 2 - 3) >> 1;
+//   var rightWIdth = (maxLength - sideWith * 2 - 3) >> 1;
+
+//   if (totalPage <= maxLength) {
+//     return rage(1, totalPage);
+//   }
+
+//   if (page <= maxLength - sideWith - 1 - rightWIdth) {
+//     return rage(1, maxLength - sideWith - 1).concat(
+//       0,
+//       rage(totalPage - sideWith + 1, totalPage)
+//     );
+//   }
+
+//   if (page >= totalPage - sideWith - 1 - rightWIdth) {
+//     return rage(1, sideWith).concat(
+//       0,
+//       rage(totalPage - sideWith - 1 - rightWIdth - leftWIdth, totalPage)
+//     );
+//   }
+
+//   return rage(q, sideWith).concat(
+//     0,
+//     rage(page - leftWIdth, page + rightWIdth),
+//     0,
+//     rage(totalPage - sideWith + 1, totalPage)
+//   );
+// }
+
+// $(function () {
+//   var numberOfItems = $(".card-produk .card").length;
+//   var limitPerPage = 6; //jumlah produk dalam halaman produk
+//   var totalPage = Math.ceil(numberOfItems / limitPerPage);
+//   var paginationSize = 5; //jumlah angka didalam pagination
+//   var currentPage;
+
+//   function showPage(whichPage) {
+//     if (whichPage < 1 || whichPage > totalPage) return false;
+//     currentPage = whichPage;
+
+//     $(".card-produk .card")
+//       .hide()
+//       .slice((currentPage - 1) * limitPerPage, currentPage * limitPerPage)
+//       .show();
+
+//     $(".pagination li").slice(1, -1).remove();
+
+//     getPageList(totalPage, currentPage, paginationSize).forEach((item) => {
+//       $("<li>")
+//         .addClass("page-item")
+//         .addClass(item ? "halaman" : "dots")
+//         .toggleClass("active", item === currentPage)
+//         .append(
+//           $("<a>")
+//             .addClass("page-link")
+//             .attr({ href: "javascript:void(0)" })
+//             .text(item || "...")
+//         )
+//         .insertBefore(".next");
+//     });
+
+//     $(".prev").toggleClass("disabled", currentPage === 1);
+//     $(".next").toggleClass("disabled", currentPage === totalPage);
+
+//     return true;
+//   }
+
+//   $(".pagination").append(
+//     $("<li>")
+//       .addClass("page-item")
+//       .addClass("prev")
+//       .append(
+//         $("<a>")
+//           .addClass("page-link")
+//           .attr({
+//             href: "javascript:void(0)",
+//           })
+//           .text("prev")
+//       ),
+
+//     $("<li>")
+//       .addClass("page-item")
+//       .addClass("next")
+//       .append(
+//         $("<a>")
+//           .addClass("page-link")
+//           .attr({
+//             href: "javascript:void(0)",
+//           })
+//           .text("next")
+//       )
+//   );
+
+//   $(".card-produk").show();
+//   showPage(1);
+// });

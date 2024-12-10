@@ -4,7 +4,7 @@ include "../config/koneksi.php";
 
 $id_produk = $_GET['idproduk'];
 
-$ambil = $koneksi->query('SELECT * FROM produk');
+$ambil = $koneksi->query("SELECT * FROM produk WHERE id_produk='$id_produk'");
 $produk = $ambil->fetch_assoc();
 
 $produkfoto = array();
@@ -36,6 +36,10 @@ while ($pecah = $ambil->fetch_assoc()) {
     <!-- Custom styles for this page -->
     <link href="../assets/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" />
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.min.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
     <!-- style -->
     <link rel="stylesheet" href="../assets/css/main.css" />
     <title>Halaman Detail Produk</title>
@@ -51,7 +55,7 @@ while ($pecah = $ambil->fetch_assoc()) {
         <div class="container">
             <nav>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="../index.php">Beranda</a></li>
+                    <li class="breadcrumb-item"><a href="../pages/produk.php">Produk</a></li>
                     <li class="breadcrumb-item active" aria-current="page">
                         Detail Produk
                     </li>
@@ -103,7 +107,7 @@ while ($pecah = $ambil->fetch_assoc()) {
 
                                     </div>
                                     <div class="card-footer text-right">
-                                        <button name="beli" class="btn btn-info">
+                                        <button name="beli" class="btn btn-primary">
                                             <i class="fas fa-shopping-cart mr-2"></i>Keranjang
                                         </button>
                                     </div>
@@ -128,14 +132,28 @@ while ($pecah = $ambil->fetch_assoc()) {
 
     <!-- tombol keranjang -->
     <?php
-    
+
     if (isset($_POST['beli'])) {
         $jumlah = $_POST['jumlah'];
-        
+
         $_SESSION['keranjang_belanja'][$id_produk] = $jumlah;
 
-        echo "<script>alert('produk berhasil masuk ke dalam keranjang');</script>";
-        echo "<script>location='keranjang.php';</script>";
+        // echo "<script>alert('produk berhasil masuk ke dalam keranjang');</script>";
+        // echo "<script>location='keranjang.php';</script>";
+
+        echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+            <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Produk Berhasil Di Tambahkan Ke Dalam Keranjang',
+                text: 'Silahkan Cek Kembali!',
+                confirmButtonText: 'OK'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = 'keranjang.php';
+                }
+            });
+            </script>";
     }
 
 
@@ -159,6 +177,8 @@ while ($pecah = $ambil->fetch_assoc()) {
     <!-- Page level plugins -->
     <script src="../assets/vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="../assets/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.all.min.js"></script>
 
     <!-- Page level custom scripts -->
     <script src="../assets/js/demo/datatables-demo.js"></script>

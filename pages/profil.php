@@ -5,8 +5,18 @@ session_start();
 include "../config/koneksi.php";
 
 if (!isset($_SESSION['pelanggan']['id_pelanggan'])) {
-    echo "<script>alert('Silahkan Login Terlebih Dahulu');</script>";
-    echo "<script>location='../pages/login.php';</script>";
+    echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+        <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Silahkan Login Terlebih Dahulu',
+            confirmButtonText: 'OK'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '../pages/login.php';
+            }
+        });
+        </script>";
     exit();
 }
 
@@ -37,6 +47,12 @@ $pecah = $ambil->fetch_assoc();
     <!-- Custom styles for this page -->
     <link href="../assets/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" />
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.min.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <link rel="stylesheet" href="../bootstrap-5.2.3/dist/css/bootstrap.min.css">
+
     <!-- style -->
     <link rel="stylesheet" href="../assets/css/main.css" />
 
@@ -44,45 +60,59 @@ $pecah = $ambil->fetch_assoc();
 </head>
 
 <body>
+    <header class="top-header py-1">
+        <div class="container d-flex justify-content-between align-items-center">
+            <div class="social-icons d-flex align-items-center">
+                <a href="#" class=" me-2"><i class="bx bxl-facebook"></i></a>
+                <a href="#" class=" me-2"><i class="bx bxs-phone"></i></a>
+                <a href="#" class=" me-2"><i class="bx bxl-whatsapp"></i></a>
+                <a href="#" class=" me-2"><i class="bx bxl-instagram-alt"></i></a>
+                <p class="mb-1 ml-2"> | </p>
+                <p class="mb-1 ml-2 text-dark">Follow Us</p>
+            </div>
+            <div class="contact-info d-flex align-items-center">
+                <?php if (isset($_SESSION['pelanggan'])): ?>
+                <a href="logout.php" class="btn btn-sm btn-contact-info font-weight-bold"><i
+                        class="bi bi-box-arrow-right mr-2 text-center"></i>Logout</a>
+                <a href="profil.php" id="btn-user"><i class='bx bx-user-circle bx-icon'></i></a>
+                <?php else: ?>
+                <a href="login.php" class="btn btn-sm btn-contact-info">Login</a>
+                <a href="daftar.php" class="btn btn-sm btn-contact-info">Daftar</a>
+                <?php endif; ?>
+            </div>
+        </div>
+    </header>
     <!-- nav header start -->
-    <nav class="navbar sticky-top">
-        <a href="index.php" class="navbar-logo">E-<span>Commerce</span></a>
+    <nav class=" navbar sticky-top">
+        <div class="container">
+            <a href="index.php" class="navbar-logo">Fashion-<span>Shop</span></a>
 
-        <div class="navbar-menu">
-            <a href="../index.php">Beranda</a>
-            <a href="#about">Tentang Kami</a>
-            <a href="pages/produk.php">Produk</a>
-            <a href="#kontak">Kontak</a>
+            <div class="navbar-menu">
+                <a href="../index.php">Beranda</a>
+                <a href="#about">Tentang Kami</a>
+                <a href="produk.php">Produk</a>
+                <a href="#kontak">Kontak</a>
 
-        </div>
+            </div>
 
-        <!-- toggle -->
-        <div class="navbar-icon">
-            <a href="#"><i class="fas fa-search"></i></a>
-            <a href="keranjang.php"><i class="fas fa-shopping-cart"></i></a>
-            <a href="#" id="btn-user"><i class="fas fa-user"></i></a>
-            <a href="#" id="btn-menu"><i class="fas fa-bars"></i></a>
-        </div>
-
-        <div class="user">
-            <ul class="list-unstyled mt-3">
-                <li><a href="#">
-                        <i class="fas fa-user-plus mb-2 mr-2"></i> Profil
-                    </a></li>
-                <li><a href="./pages/logout.php">
-                        <i class="fas fa-sign-in-alt mr-2"></i> Logout
-                    </a></li>
-            </ul>
+            <!-- toggle -->
+            <div class="navbar-icon">
+                <a href="#"><i class="fas fa-search"></i></a>
+                <a href="../includes/keranjang.php"><i class="bi bi-cart-dash-fill"></i></a>
+                <a href="#" id="btn-menu"><i class="fas fa-bars"></i></a>
+            </div>
         </div>
     </nav>
     <!-- nav header end -->
 
+
     <!-- section produk start -->
     <section class="page-produk">
         <div class="container">
-            <nav>
+
+            <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="../index.php">Beranda</a></li>
+                    <li class="breadcrumb-item"><a href="../index.php">Home</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Profil</li>
                 </ol>
             </nav>
@@ -90,7 +120,7 @@ $pecah = $ambil->fetch_assoc();
             <div class="row">
 
                 <div class="col-md-3">
-                    <div class="card rounded">
+                    <div class="card rounded mb-3 mb-lg-0">
 
                         <div class="card-header">
                             <div class="img">
@@ -107,16 +137,23 @@ $pecah = $ambil->fetch_assoc();
                         <div class="card-body">
                             <ul class="nav nav-pills flex-column text-center">
                                 <li class="nav-item">
-                                    <a href="index" class="nav-link">Home</a>
+                                    <a href="profil.php" class="nav-link">
+                                        <i class='bx bxs-home'></i><span class="ml-2">Home</span>
+                                    </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="profil.php?page=pesanan" class="nav-link">
-                                        Pesanan
+                                        <i class='bx bxs-cart'></i><span class="ml-2">Pesanan</span>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="profil.php?page=riwayat" class="nav-link">
-                                        Riwayat Belanja
+                                        <i class='bx bx-history'></i><span class="ml-2">Riwayat Belanja</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="profil.php?page=setting" class="nav-link">
+                                        <i class='bx bxs-cog'></i><span class="ml-2">Setting</span>
                                     </a>
                                 </li>
                             </ul>
@@ -130,9 +167,19 @@ $pecah = $ambil->fetch_assoc();
 
                             <?php
 
-                            if(isset($_GET['page'])){
-                                if($_GET['page']=="pesanan"){
+                            if (isset($_GET['page'])) {
+                                if ($_GET['page'] == "pesanan") {
                                     include 'pesanan.php';
+                                } elseif ($_GET['page'] == "detail_pembelian") {
+                                    include 'detail_pembelian.php';
+                                } elseif ($_GET['page'] == "setting") {
+                                    include 'setting.php';
+                                } elseif ($_GET['page'] == "ubah_password") {
+                                    include 'ubah_password.php';
+                                } elseif ($_GET['page'] == "pembayaran") {
+                                    include 'bayar.php';
+                                } elseif ($_GET['page'] == "detail_pembayaran") {
+                                    include 'detail_pembayaran.php';
                                 }
                             } else {
                                 include 'home.php';
@@ -171,6 +218,8 @@ $pecah = $ambil->fetch_assoc();
 
     <!-- Page level custom scripts -->
     <script src="../assets/js/demo/datatables-demo.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.all.min.js"></script>
 
     <script src="../assets/js/main.js"></script>
 </body>

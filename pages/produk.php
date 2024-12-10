@@ -13,20 +13,20 @@ if (isset($_GET['idkategori'])) {
     $kategori_produk = array();
 
     $ambil = $koneksi->query("SELECT * FROM produk join kategori ON
-    produk.id_kategori=kategori.id_kategori WHERE produk.id_kategori='$id_kategori' LIMIT 8"); 
+    produk.id_kategori=kategori.id_kategori WHERE produk.id_kategori='$id_kategori'");
 
     while ($pecah = $ambil->fetch_assoc()) {
-        $kategori_produk[]=$pecah;
+        $kategori_produk[] = $pecah;
     }
 } else {
     // jika tidak ada idkategori di url
     $produk = array();
 
     $ambil = $koneksi->query("SELECT * FROM produk join kategori ON
-    produk.id_kategori=kategori.id_kategori LIMIT 8"); 
+    produk.id_kategori=kategori.id_kategori");
 
     while ($pecah = $ambil->fetch_assoc()) {
-        $produk[]=$pecah;
+        $produk[] = $pecah;
     }
 }
 
@@ -52,6 +52,8 @@ if (isset($_GET['idkategori'])) {
     <!-- Custom styles for this page -->
     <link href="../assets/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" />
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
     <!-- style -->
     <link rel="stylesheet" href="../assets/css/main.css" />
 
@@ -59,8 +61,47 @@ if (isset($_GET['idkategori'])) {
 </head>
 
 <body>
+    <header class="top-header py-1">
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="social-icons d-flex align-items-center">
+                <a href="#" class=" me-2"><i class="bx bxl-facebook"></i></a>
+                <a href="#" class=" me-2"><i class="bx bxs-phone"></i></a>
+                <a href="#" class=" me-2"><i class="bx bxl-whatsapp"></i></a>
+                <a href="#" class=" me-2"><i class="bx bxl-instagram-alt"></i></a>
+                <p class="mb-1 ml-2"> | </p>
+                <p class="mb-1 ml-2 text-dark">Follow Us</p>
+            </div>
+            <div class="contact-info d-flex align-items-center">
+                <?php if (isset($_SESSION['pelanggan'])): ?>
+                <a href="logout.php" class="btn btn-sm btn-contact-info font-weight-bold"><i
+                        class="bi bi-box-arrow-right mr-2 text-center"></i>Logout</a>
+                <a href="profil.php" id="btn-user"><i class='bx bx-user-circle bx-icon'></i></a>
+                <?php else: ?>
+                <a href="login.php" class="btn btn-sm btn-contact-info">Login</a>
+                <a href="daftar.php" class="btn btn-sm btn-contact-info">Daftar</a>
+                <?php endif; ?>
+            </div>
+        </div>
+    </header>
     <!-- nav header start -->
-    <?php include "../includes/navbar.php"; ?>
+    <nav class=" navbar sticky-top">
+        <a href="index.php" class="navbar-logo">E-<span>Commerce</span></a>
+
+        <div class="navbar-menu">
+            <a href="#">Beranda</a>
+            <a href="#about">Tentang Kami</a>
+            <a href="pages/produk.php">Produk</a>
+            <a href="#kontak">Kontak</a>
+
+        </div>
+
+        <!-- toggle -->
+        <div class="navbar-icon">
+            <a href="#"><i class="fas fa-search"></i></a>
+            <a href="../includes/keranjang.php"><i class="bi bi-cart-dash-fill"></i></a>
+            <a href="#" id="btn-menu"><i class="fas fa-bars"></i></a>
+        </div>
+    </nav>
     <!-- nav header end -->
 
     <!-- section produk start -->
@@ -73,6 +114,7 @@ if (isset($_GET['idkategori'])) {
                 </ol>
             </nav>
 
+            <!-- card produk -->
             <div class="row">
                 <div class="col-md-3">
                     <?php include "../includes/sidebar.php" ?>
@@ -96,7 +138,7 @@ if (isset($_GET['idkategori'])) {
                             <div class="card card-body p-lg-4 p-3">
                                 <img src="../assets/foto_produk/<?php echo $value['foto_produk']; ?>" class="img-fluid"
                                     style="border-radius: 10px" alt="" />
-                                <h4 class="title mt-3"><?php echo $value['nama_produk']; ?></h4>
+                                <h4 class="title mt-3 text-dark"><?php echo $value['nama_produk']; ?></h4>
                                 <div class="rating">
                                     <i class="bx bxs-star bx-star"></i>
                                     <i class="bx bxs-star bx-star"></i>
@@ -104,15 +146,15 @@ if (isset($_GET['idkategori'])) {
                                     <i class="bx bxs-star bx-star"></i>
                                     <i class="bx bxs-star-fill bx-star"></i>
                                 </div>
-                                <p class="price m-0 mt-2">
+                                <p class="price m-0 mt-2 text-dark">
                                     Rp.<?php echo number_format($value['harga_produk']); ?>
                                 </p>
-                                <div class="detail d-flex justify-content-between align-items-center mt-4">
+                                <div class="detail d-flex justify-content-between mt-4">
                                     <a href="../includes/detail_produk.php?idproduk=<?php echo $value['id_produk']; ?>"
-                                        class="btn btn-sm btn-info btn-produk"><i class="fas fa-eye mr-2"></i>Detail</a>
+                                        class="btn btn-sm btn-primary"><i class="bi bi-eye me-2"></i>Detail</a>
                                     <a href="../includes/beli.php?idproduk=<?php echo $value['id_produk']; ?>"
-                                        class="btn btn-sm btn-success btn-produk"><i
-                                            class="fas fa-shopping-cart mr-2"></i>Keranjang</a>
+                                        class="btn btn-sm btn-success"><i
+                                            class="bi bi-bag-dash-fill me-1"></i>Kranjang</a>
                                 </div>
                             </div>
                         </div>
@@ -124,7 +166,7 @@ if (isset($_GET['idkategori'])) {
                             <div class="card card-body p-lg-4 p-3">
                                 <img src="../assets/foto_produk/<?php echo $value['foto_produk']; ?>" class="img-fluid"
                                     style="border-radius: 10px" alt="" />
-                                <h4 class="title mt-3"><?php echo $value['nama_produk']; ?></h4>
+                                <h4 class="title mt-3 text-dark"><?php echo $value['nama_produk']; ?></h4>
                                 <div class="rating">
                                     <i class="bx bxs-star bx-star"></i>
                                     <i class="bx bxs-star bx-star"></i>
@@ -132,15 +174,14 @@ if (isset($_GET['idkategori'])) {
                                     <i class="bx bxs-star bx-star"></i>
                                     <i class="bx bxs-star-fill bx-star"></i>
                                 </div>
-                                <p class="price m-0 mt-2">
+                                <p class="price m-0 mt-2 text-dark">
                                     Rp.<?php echo number_format($value['harga_produk']); ?>
                                 </p>
                                 <div class="detail d-flex justify-content-between align-items-center mt-4">
                                     <a href="../includes/detail_produk.php?idproduk=<?php echo $value['id_produk']; ?>"
-                                        class="btn btn-sm btn-info"><i class="fas fa-eye mr-2"></i>Detail</a>
+                                        class="btn btn-sm btn-primary"><i class="bi bi-eye me-2"></i>Detail</a>
                                     <a href="../includes/beli.php?idproduk=<?php echo $value['id_produk']; ?>"
-                                        class="btn btn-sm btn-success"><i
-                                            class="fas fa-shopping-cart mr-2"></i>Keranjang</a>
+                                        class="btn btn-sm btn-success"><i class="bi bi-bag-dash-fill"></i>Kranjang</a>
                                 </div>
                             </div>
                         </div>
@@ -150,6 +191,43 @@ if (isset($_GET['idkategori'])) {
 
                 </div>
             </div>
+            <!-- card produk -->
+
+            <!-- pagination -->
+            <!-- <div class="pagination justify-content-center">
+                <li class="page-item prev disabled">
+                    <a href="#" class="page-link">Prev</a>
+                </li>
+
+                <li class="page-item halaman">
+                    <a href="#" class="page-link active">1</a>
+                </li>
+
+                <li class="page-item dots">
+                    <a href="#" class="page-link">...</a>
+                </li>
+
+                <li class="page-item halaman">
+                    <a href="#" class="page-link">5</a>
+                </li>
+
+                <li class="page-item halaman">
+                    <a href="#" class="page-link">6</a>
+                </li>
+
+                <li class="page-item dots">
+                    <a href="#" class="page-link">...</a>
+                </li>
+
+                <li class="page-item halaman">
+                    <a href="#" class="page-link">10</a>
+                </li>
+
+                <li class="page-item next">
+                    <a href="#" class="page-link">Next</a>
+                </li>
+            </div> -->
+            <!-- pagination -->
 
 
         </div>

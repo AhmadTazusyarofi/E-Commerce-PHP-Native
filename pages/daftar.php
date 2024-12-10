@@ -22,6 +22,8 @@ include "../config/koneksi.php";
     <!-- Custom styles for this template-->
     <link href="../assets/css/sb-admin-2.min.css" rel="stylesheet" />
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.min.css">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <link rel="stylesheet" href="../assets/css/main.css" />
@@ -40,8 +42,9 @@ include "../config/koneksi.php";
                             <div class="col-lg-12">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <h1 class="h3 text-dark mb-4"><strong>Daftar</strong>
+                                        <h1 class="h3 text-dark mb-4"><strong>Fashion-Shop</strong>
                                         </h1>
+                                        <h5 class="text-dark mt-1 mb-3">Daftar Akun</h5>
                                     </div>
                                     <form method="post" class="user" enctype="multipart/form-data">
                                         <div class="form-group d-flex align-items-center">
@@ -94,36 +97,58 @@ include "../config/koneksi.php";
     </div>
 
     <?php
-
     if (isset($_POST['daftar'])) {
         $nama = $_POST['nama'];
         $email = $_POST['email'];
         $password = sha1($_POST['password']);
-        $nohp = $_POST['nohp'];
+        $telepon = $_POST['nohp'];
         $alamat = $_POST['alamat'];
 
-        $namafoto = $_FILES['foto']['name'];
-        $lokasifoto = $_FILES['foto']['tmp_name'];
+        $nama_foto = $_FILES['foto']['name'];
+        $lokasi_foto = $_FILES['foto']['tmp_name'];
 
-        move_uploaded_file($lokasifoto, "../assets/foto_pelanggan/" . $namafoto);
+        move_uploaded_file($lokasi_foto, "../assets/foto_pelanggan/" . $nama_foto);
 
-        // jika email sama
-        $ambil = $koneksi->query("SELECT * FROM pelanggan
-        WHERE email_pelanggan='$email'");
+        // Periksa apakah email sudah ada di database
+        $ambil = $koneksi->query("SELECT * FROM pelanggan WHERE email_pelanggan='$email'");
         $ada_email = $ambil->num_rows;
-        if ($ada_email==1) {
-            echo "<script>alert('Email Sudah Ada');</script>";
-            echo "<script>location='daftar.php';</script>";
-        } else {
-            $koneksi->query("INSERT INTO pelanggan(nama_pelanggan,email_pelanggan,password_pelanggan,telepon_pelanggan,alamat_pelanggan,foto_pelanggan)
-            VALUES('$nama', '$email', '$password', '$nohp', '$alamat', '$namafoto')");
 
-            echo "<script>alert('Daftar Berhasil');</script>";
-            echo "<script>location='login.php';</script>";
+        if ($ada_email == 1) {
+            echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+        <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Email Sudah Ada',
+            text: 'Silahkan Masukan Email Lain!',
+            confirmButtonText: 'OK'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = 'daftar.php';
+            }
+        });
+        </script>";
+        } else {
+            // Email tidak ada, lanjutkan dengan pendaftaran
+            $koneksi->query("INSERT INTO pelanggan (nama_pelanggan, email_pelanggan, password_pelanggan, telepon_pelanggan, alamat_pelanggan, foto_pelanggan)
+        VALUES ('$nama', '$email', '$password', '$telepon', '$alamat', '$nama_foto')");
+
+            echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+        <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Daftar Akun Berhasil',
+            text: 'Silahkan Login!',
+            confirmButtonText: 'OK'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '../pages/login.php';
+            }
+        });
+        </script>";
         }
     }
-
     ?>
+
 
 
     <!-- Bootstrap core JavaScript-->
@@ -132,6 +157,8 @@ include "../config/koneksi.php";
 
     <!-- Core plugin JavaScript-->
     <script src="../assets/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.all.min.js"></script>
 
     <!-- Custom scripts for all pages-->
     <script src="../assets/js/sb-admin-2.min.js"></script>
